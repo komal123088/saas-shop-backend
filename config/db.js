@@ -1,16 +1,15 @@
 const mongoose = require("mongoose");
-const { MONGO_URI } = require("../env");
 
 const connectDB = async () => {
   try {
+    const MONGO_URI = process.env.MONGO_URI;
+
     console.log("🔄 Connecting to MongoDB...");
     console.log("MONGO_URI value:", MONGO_URI ? "✅ Found" : "❌ Undefined");
 
     if (!MONGO_URI) {
-      console.error(
-        "❌ MONGO_URI is undefined. Check your env.js file and .env file",
-      );
-      return; // Don't throw, just return
+      console.error("❌ MONGO_URI is undefined.");
+      return;
     }
 
     const conn = await mongoose.connect(MONGO_URI);
@@ -26,10 +25,6 @@ const connectDB = async () => {
   } catch (error) {
     console.error("❌ MongoDB Connection Failed!");
     console.error("   Error Message:", error.message);
-    // DON'T exit the process - this crashes on Vercel
-    // if (process.env.NODE_ENV !== 'production') {
-    //   process.exit(1);
-    // }
   }
 };
 
