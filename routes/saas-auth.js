@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const SuperAdmin = require("../models/SuperAdmin");
-const { JWT_SECRET } = require("../env");
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // ── Register (one time only) ──
 router.post("/register", async (req, res) => {

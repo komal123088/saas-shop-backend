@@ -5,7 +5,7 @@ const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const Owner = require("../models/Owner");
 const Employee = require("../models/Employee");
-const { JWT_SECRET } = require("../env");
+const JWT_SECRET = process.env.JWT_SECRET;
 const { tenantAuth } = require("../middleware/tenantAuth");
 const Tenant = require("../models/Tenant");
 // ============================================

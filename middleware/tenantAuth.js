@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const Owner = require("../models/Owner");
-const { JWT_SECRET } = require("../env");
+const JWT_SECRET = process.env.JWT_SECRET;
 
 const tenantAuth = async (req, res, next) => {
   try {
@@ -23,12 +23,10 @@ const tenantAuth = async (req, res, next) => {
       const owner = await Owner.findById(decoded.id);
       if (!owner) return res.status(401).json({ message: "User not found" });
       if (decoded.tokenVersion !== owner.tokenVersion) {
-        return res
-          .status(401)
-          .json({
-            message: "Session expired. Please login again.",
-            sessionExpired: true,
-          });
+        return res.status(401).json({
+          message: "Session expired. Please login again.",
+          sessionExpired: true,
+        });
       }
     }
 
@@ -65,11 +63,9 @@ const hasRole = (...allowedRoles) => {
   return (req, res, next) => {
     if (req.isOwner) return next();
     if (!allowedRoles.includes(req.userRole)) {
-      return res
-        .status(403)
-        .json({
-          message: `Access denied. Required: ${allowedRoles.join(" or ")}`,
-        });
+      return res.status(403).json({
+        message: `Access denied. Required: ${allowedRoles.join(" or ")}`,
+      });
     }
     next();
   };
