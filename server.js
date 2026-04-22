@@ -12,10 +12,12 @@ connectDB();
 const app = express();
 
 // ── Uploads directory ──
-const uploadDir = path.join(__dirname, "uploads");
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
-  console.log("✅ Uploads directory created");
+if (process.env.NODE_ENV !== 'production') {
+  const uploadDir = path.join(__dirname, "uploads");
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+    console.log("✅ Uploads directory created");
+  }
 }
 
 // ── Middleware ──
