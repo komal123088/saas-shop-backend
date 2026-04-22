@@ -7,9 +7,11 @@ const Product = require("../models/Product");
 const { tenantAuth, isOwnerOrManager } = require("../middleware/tenantAuth");
 
 // Uploads folder
-const uploadDir = path.join(__dirname, "../uploads");
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
+if (process.env.NODE_ENV !== "production") {
+  const uploadDir = path.join(__dirname, "../uploads");
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+  }
 }
 
 const storage = multer.diskStorage({
